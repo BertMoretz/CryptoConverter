@@ -1,6 +1,10 @@
 import React from 'react';
-	import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom';
+
+import {HomePage} from "./pages/home/home-page"
 
 
-	ReactDOM.render( <h1>Hello, world!</h1>,
-	  document.getElementById('root') );
+ReactDOM.render(
+	<HomePage />,
+	document.getElementById('root')
+);
