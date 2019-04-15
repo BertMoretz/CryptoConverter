@@ -1,0 +1,51 @@
+{
+  "name": "cryptoconverter",
+  "version": "1.0.0",
+  "description": "CriptoConverter",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:dev": "webpack-dev-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BertMoretz/CryptoConverter.git"
+  },
+  "keywords": [
+    "crypto"
+  ],
+  "author": "AlbertSakhapov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BertMoretz/CryptoConverter/issues"
+  },
+  "homepage": "https://github.com/BertMoretz/CryptoConverter#readme",
+  "dependencies": {
+    "@material-ui/core": "^3.9.2",
+    "axios": "^0.18.0",
+    "identity-obj-proxy": "^3.0.0",
+    "react": "^16.8.1",
+    "react-dom": "^16.8.1",
+    "react-router": "^5.0.0",
+    "react-router-dom": "^4.3.1",
+    "terser": "^3.14.1",
+    "webpack": "^4.29.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.3.0",
+    "@babel/preset-env": "^7.4.3",
+    "@babel/preset-react": "^7.0.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.5",
+    "babel-preset-env": "^1.7.0",
+    "css-loader": "^2.1.0",
+    "express": "^4.16.4",
+    "file-loader": "^3.0.1",
+    "html-webpack-plugin": "^3.2.0",
+    "react-test-renderer": "^16.8.6",
+    "style-loader": "^0.23.1",
+    "webpack-cli": "^3.2.3",
+    "webpack-dev-server": "^3.1.14"
+  }
+}
