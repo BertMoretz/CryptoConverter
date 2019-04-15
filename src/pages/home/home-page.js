@@ -9,6 +9,9 @@ import Select from '@material-ui/core/Select';
 import Input from '@material-ui/core/Input';
 import InputBase from '@material-ui/core/InputBase';
 import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
+import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
+
 
 import style from "./home-page.css"
 
@@ -71,8 +74,9 @@ export class HomePage extends React.Component {
     let v = this.state.value;
     let re = v / this.state.cryptos[c][f];
 
-    this.setState({ result: re }, () => {console.log(this.state.result)});
-    ;
+    this.setState({ result: re }, () => {
+      console.log(this.state.result)
+    });
   }
 
   handleChangeFiat = event => {
@@ -87,7 +91,7 @@ export class HomePage extends React.Component {
     });
   };
 
-  convert = event => {
+  handle = event => {
     let value = event.target.value;
     this.setState({
            value: event.target.value
@@ -101,7 +105,8 @@ export class HomePage extends React.Component {
         return <div className={style.loading}> <CircularProgress /> </div>
       }
       return (
-        <form>
+        <Grid container spacing={24}>
+          <Grid item xs={12} md={5}>
           <FormControl className={style.margin}>
             <InputLabel htmlFor="fiat-customized-select" className={style.bootstrapLabel}>
               Fiat
@@ -124,16 +129,21 @@ export class HomePage extends React.Component {
             </InputLabel>
             <InputBase
               id="bootstrap-input"
-              defaultValue="0"
+              value={this.state.value}
               classes={{
                 root: style.bootstrapRoot,
                 input: style.bootstrapInput,
               }}
-              onChange={this.convert}
+              onChange={this.handle}
             />
           </FormControl>
-
-
+          </Grid>
+          <Grid item xs={12} md={2}>
+          <IconButton className={style.fab}>
+            <CompareArrowsIcon />
+          </IconButton>
+          </Grid>
+          <Grid item xs={12} md={5}>
           <FormControl className={style.margin}>
             <InputLabel htmlFor="crypto-customized-select" className={style.bootstrapLabel}>
               Crypto
@@ -162,7 +172,8 @@ export class HomePage extends React.Component {
               onChange={this.convert}
             />
           </FormControl>
-        </form>
+          </Grid>
+        </Grid>
       )
   }
 }
