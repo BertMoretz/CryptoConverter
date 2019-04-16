@@ -51,6 +51,7 @@ export class HomePage extends React.Component {
     crypto: 'BTC',
     value: '0',
     result: '0',
+    fiatToCrypto: true,
   }
 
   componentDidMount() {
@@ -72,11 +73,21 @@ export class HomePage extends React.Component {
     let f = this.state.fiat;
     let c = this.state.crypto;
     let v = this.state.value;
-    let re = v / this.state.cryptos[c][f];
+    let r = this.state.result;
+    let re;
+    if (this.state.fiatToCrypto) {
+      re = v / this.state.cryptos[c][f];
+      this.setState({ result: re }, () => {
+        console.log(this.state.result)
+      });
+    } else {
+      re = r * this.state.cryptos[c][f];
+      this.setState({ value: re }, () => {
+        console.log(this.state.value)
+      });
+    }
 
-    this.setState({ result: re }, () => {
-      console.log(this.state.result)
-    });
+
   }
 
   handleChangeFiat = event => {
@@ -93,12 +104,37 @@ export class HomePage extends React.Component {
 
   handle = event => {
     let value = event.target.value;
+    if (/^\d*\.?\d*$/.test(value)) {
+      this.setState({
+             value: event.target.value
+      },  () => {
+        this.countResult();
+      })
+    }
+
+  };
+
+  handleCrypto = event => {
+    let value = event.target.value;
+    if (/^\d*\.?\d*$/.test(value)) {
+      this.setState({
+             result: event.target.value
+      },  () => {
+        this.countResult();
+      })
+    }
+  };
+
+  rotate = event => {
+    let temp = !this.state.fiatToCrypto;
     this.setState({
-           value: event.target.value
+           fiatToCrypto: temp,
+           value: 0,
+           result: 0,
     },  () => {
       this.countResult();
     })
-  };
+  }
 
   render() {
       if(!this.state.cryptos) {
@@ -123,7 +159,7 @@ export class HomePage extends React.Component {
 
 
           </FormControl>
-          <FormControl>
+          <FormControl disabled={!this.state.fiatToCrypto}>
             <InputLabel shrink htmlFor="bootstrap-input" className={style.bootstrapLabel}>
               Bootstrap
             </InputLabel>
@@ -139,7 +175,7 @@ export class HomePage extends React.Component {
           </FormControl>
           </Grid>
           <Grid item xs={12} md={2}>
-          <IconButton className={style.fab}>
+          <IconButton className={style.fab} onClick={this.rotate}>
             <CompareArrowsIcon />
           </IconButton>
           </Grid>
@@ -158,7 +194,7 @@ export class HomePage extends React.Component {
             </Select>
           </FormControl>
 
-          <FormControl disabled>
+          <FormControl disabled={this.state.fiatToCrypto}>
             <InputLabel shrink htmlFor="bootstrap-input" className={style.bootstrapLabel}>
               Bootstrap
             </InputLabel>
@@ -169,7 +205,7 @@ export class HomePage extends React.Component {
                 root: style.bootstrapRoot,
                 input: style.bootstrapInput,
               }}
-              onChange={this.convert}
+              onChange={this.handleCrypto}
             />
           </FormControl>
           </Grid>
