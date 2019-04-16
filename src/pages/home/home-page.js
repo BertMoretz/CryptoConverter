@@ -161,24 +161,25 @@ export class HomePage extends React.Component {
           </FormControl>
           <FormControl disabled={!this.state.fiatToCrypto}>
             <InputLabel shrink htmlFor="bootstrap-input" className={style.bootstrapLabel}>
-              Bootstrap
+              Value
             </InputLabel>
             <InputBase
               id="bootstrap-input"
               value={this.state.value}
-              classes={{
-                root: style.bootstrapRoot,
-                input: style.bootstrapInput,
-              }}
+              className={style.bootstrapRoot}
               onChange={this.handle}
             />
           </FormControl>
           </Grid>
-          <Grid item xs={12} md={2}>
-          <IconButton className={style.fab} onClick={this.rotate}>
-            <CompareArrowsIcon />
-          </IconButton>
+
+          <Grid item xs={12} md={1}>
+            <div className={style.currSwapper} >
+              <IconButton onClick={this.rotate} className={this.state.fiatToCrypto ? `${style.icon}` : `${style.hey}`}>
+                <CompareArrowsIcon />
+              </IconButton>
+            </div>
           </Grid>
+
           <Grid item xs={12} md={5}>
           <FormControl className={style.margin}>
             <InputLabel htmlFor="crypto-customized-select" className={style.bootstrapLabel}>
@@ -196,7 +197,7 @@ export class HomePage extends React.Component {
 
           <FormControl disabled={this.state.fiatToCrypto}>
             <InputLabel shrink htmlFor="bootstrap-input" className={style.bootstrapLabel}>
-              Bootstrap
+              Value
             </InputLabel>
             <InputBase
               id="bootstrap-input"

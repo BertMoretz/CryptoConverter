@@ -4,9 +4,37 @@
 }
 
 .bootstrapLabel {
-  font-size: 100px;
+  font-size: 50px;
 }
 
-.bootstrapInput {
-  
+.bootstrapRoot {
+  border-radius: 4px;
+  border: 1px solid #ced4da;
+  font-size: 18px;
+  padding: 5px 12px 4px 12px;
+  margin-top: 24px;
+}
+
+.currSwapper {
+  margin-top: 24px;
+}
+
+.icon {
+    animation: spin 300ms;
+    transform: rotate(180deg);
+}
+
+.hey {
+  animation: spin 300ms;
+  transform: rotate(180deg);
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(180deg);
+    }
 }
