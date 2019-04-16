@@ -25,8 +25,8 @@
 }
 
 .hey {
-  animation: spin 300ms;
-  transform: rotate(180deg);
+  animation: spinBack 300ms;
+  transform: rotate(360deg);
 }
 
 @keyframes spin {
@@ -36,5 +36,15 @@
 
     100% {
         transform: rotate(180deg);
+    }
+}
+
+@keyframes spinBack {
+    0% {
+        transform: rotate(180deg);
+    }
+
+    100% {
+        transform: rotate(360);
     }
 }

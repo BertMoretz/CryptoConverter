@@ -10,7 +10,7 @@ import Input from '@material-ui/core/Input';
 import InputBase from '@material-ui/core/InputBase';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
-import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 
 import style from "./home-page.css"
@@ -175,7 +175,7 @@ export class HomePage extends React.Component {
           <Grid item xs={12} md={1}>
             <div className={style.currSwapper} >
               <IconButton onClick={this.rotate} className={this.state.fiatToCrypto ? `${style.icon}` : `${style.hey}`}>
-                <CompareArrowsIcon />
+                <ArrowBackIcon />
               </IconButton>
             </div>
           </Grid>
