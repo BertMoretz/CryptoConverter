@@ -49,8 +49,8 @@ export class HomePage extends React.Component {
   state = {
     fiat: 'USD',
     crypto: 'BTC',
-    value: '0',
-    result: '0',
+    value: '',
+    result: '',
     fiatToCrypto: true,
   }
 
@@ -129,8 +129,8 @@ export class HomePage extends React.Component {
     let temp = !this.state.fiatToCrypto;
     this.setState({
            fiatToCrypto: temp,
-           value: 0,
-           result: 0,
+           value: '',
+           result: '',
     },  () => {
       this.countResult();
     })
@@ -141,76 +141,78 @@ export class HomePage extends React.Component {
         return <div className={style.loading}> <CircularProgress /> </div>
       }
       return (
-        <Grid container spacing={24}>
-          <Grid item xs={12} md={5}>
-          <FormControl className={style.margin}>
-            <InputLabel htmlFor="fiat-customized-select" className={style.bootstrapLabel}>
-              Fiat
-            </InputLabel>
-            <Select
-              value={this.state.fiat}
-              onChange={this.handleChangeFiat}
-              input={<BootstrapInput name="fiat" id="fiat-customized-select" />}
-            >
-              <MenuItem value={"USD"}>USD</MenuItem>
-              <MenuItem value={"EUR"}>EUR</MenuItem>
-              <MenuItem value={"RUB"}>RUB</MenuItem>
-            </Select>
+        <div className={style.main}>
+          <Grid container spacing={24}>
+            <Grid item xs={12} md={5}>
+            <FormControl className={style.margin}>
+              <InputLabel htmlFor="fiat-customized-select" className={style.bootstrapLabel}>
+                Fiat
+              </InputLabel>
+              <Select
+                value={this.state.fiat}
+                onChange={this.handleChangeFiat}
+                input={<BootstrapInput name="fiat" id="fiat-customized-select" />}
+              >
+                <MenuItem value={"USD"}>USD</MenuItem>
+                <MenuItem value={"EUR"}>EUR</MenuItem>
+                <MenuItem value={"RUB"}>RUB</MenuItem>
+              </Select>
 
 
-          </FormControl>
-          <FormControl disabled={!this.state.fiatToCrypto}>
-            <InputLabel shrink htmlFor="bootstrap-input" className={style.bootstrapLabel}>
-              Value
-            </InputLabel>
-            <InputBase
-              id="bootstrap-input"
-              value={this.state.value}
-              className={style.bootstrapRoot}
-              onChange={this.handle}
-            />
-          </FormControl>
+            </FormControl>
+            <FormControl disabled={!this.state.fiatToCrypto}>
+              <InputLabel shrink htmlFor="bootstrap-input" className={style.bootstrapLabel}>
+                Value
+              </InputLabel>
+              <InputBase
+                id="bootstrap-input"
+                value={this.state.value}
+                className={style.bootstrapRoot}
+                onChange={this.handle}
+              />
+            </FormControl>
+            </Grid>
+
+            <Grid item xs={12} md={1}>
+              <div className={style.currSwapper} >
+                <IconButton onClick={this.rotate} className={this.state.fiatToCrypto ? `${style.icon}` : `${style.hey}`}>
+                  <ArrowBackIcon />
+                </IconButton>
+              </div>
+            </Grid>
+
+            <Grid item xs={12} md={5}>
+            <FormControl className={style.margin}>
+              <InputLabel htmlFor="crypto-customized-select" className={style.bootstrapLabel}>
+                Crypto
+              </InputLabel>
+              <Select
+                value={this.state.crypto}
+                onChange={this.handleChangeCrypto}
+                input={<BootstrapInput name="crypto" id="crypto-customized-select" />}
+              >
+                <MenuItem value={"BTC"}>BTC</MenuItem>
+                <MenuItem value={"ETH"}>ETH</MenuItem>
+              </Select>
+            </FormControl>
+
+            <FormControl disabled={this.state.fiatToCrypto}>
+              <InputLabel shrink htmlFor="bootstrap-input" className={style.bootstrapLabel}>
+                Value
+              </InputLabel>
+              <InputBase
+                id="bootstrap-input"
+                value={this.state.result}
+                classes={{
+                  root: style.bootstrapRoot,
+                  input: style.bootstrapInput,
+                }}
+                onChange={this.handleCrypto}
+              />
+            </FormControl>
+            </Grid>
           </Grid>
-
-          <Grid item xs={12} md={1}>
-            <div className={style.currSwapper} >
-              <IconButton onClick={this.rotate} className={this.state.fiatToCrypto ? `${style.icon}` : `${style.hey}`}>
-                <ArrowBackIcon />
-              </IconButton>
-            </div>
-          </Grid>
-
-          <Grid item xs={12} md={5}>
-          <FormControl className={style.margin}>
-            <InputLabel htmlFor="crypto-customized-select" className={style.bootstrapLabel}>
-              Crypto
-            </InputLabel>
-            <Select
-              value={this.state.crypto}
-              onChange={this.handleChangeCrypto}
-              input={<BootstrapInput name="crypto" id="crypto-customized-select" />}
-            >
-              <MenuItem value={"BTC"}>BTC</MenuItem>
-              <MenuItem value={"ETH"}>ETH</MenuItem>
-            </Select>
-          </FormControl>
-
-          <FormControl disabled={this.state.fiatToCrypto}>
-            <InputLabel shrink htmlFor="bootstrap-input" className={style.bootstrapLabel}>
-              Value
-            </InputLabel>
-            <InputBase
-              id="bootstrap-input"
-              value={this.state.result}
-              classes={{
-                root: style.bootstrapRoot,
-                input: style.bootstrapInput,
-              }}
-              onChange={this.handleCrypto}
-            />
-          </FormControl>
-          </Grid>
-        </Grid>
+        </div>
       )
   }
 }
