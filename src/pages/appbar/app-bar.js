@@ -9,6 +9,10 @@ import style from './app-bar.css'
 
 class MyAppBar extends React.Component {
 
+  buildDetailsClickHandler = (link) => () => {
+     this.props.history.replace(`/${link}`)
+   }
+
   render() {
     return (
       <AppBar position="static">
@@ -18,8 +22,8 @@ class MyAppBar extends React.Component {
               CryptoConverter
             </Typography>
           </div>
-          <Button color="inherit">Home</Button>
-          <Button color="inherit">Stats</Button>
+          <Button color="inherit" onClick={this.buildDetailsClickHandler("home")}>Home</Button>
+          <Button color="inherit" onClick={this.buildDetailsClickHandler("statistics")}>Stats</Button>
         </Toolbar>
       </AppBar>
     )

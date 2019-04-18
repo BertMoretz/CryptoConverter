@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 
 import {HomePage} from "./pages/home/home-page"
 import MyAppBar from "./pages/appbar/app-bar"
+import {Stats} from "./pages/stats/stats"
 
 
 ReactDOM.render(
@@ -12,7 +13,7 @@ ReactDOM.render(
 			<MyAppBar />
 			<Switch>
 				<Route path="/home" component={HomePage}/>
-
+				<Route path="/statistics" component={Stats}/>
 				<Redirect from="*" to="/home"/>
 			</Switch>
 		</main>
