@@ -142,7 +142,7 @@ export class HomePage extends React.Component {
       }
       return (
         <div className={style.main}>
-          <Grid container spacing={24}>
+          <Grid container spacing={8}>
             <Grid item xs={12} md={5}>
             <FormControl className={style.margin}>
               <InputLabel htmlFor="fiat-customized-select" className={style.bootstrapLabel}>

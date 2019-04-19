@@ -15,7 +15,7 @@ class MyAppBar extends React.Component {
 
   render() {
     return (
-      <AppBar position="static">
+      <AppBar position="static" color="primary">
         <Toolbar>
           <div className={style.logo}>
             <Typography variant="h6" color="inherit">
