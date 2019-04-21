@@ -11,6 +11,8 @@ import InputBase from '@material-ui/core/InputBase';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 
 
 import style from "./home-page.css"
@@ -52,6 +54,8 @@ export class HomePage extends React.Component {
     value: '',
     result: '',
     fiatToCrypto: true,
+    fiatValue: 0,
+    cryptoValue: 0,
   }
 
   componentDidMount() {
@@ -90,17 +94,17 @@ export class HomePage extends React.Component {
 
   }
 
-  handleChangeFiat = event => {
-    this.setState({ fiat: event.target.value },  () => {
-      this.countResult();
-    });
-  };
-
-  handleChangeCrypto = event => {
-    this.setState({ crypto: event.target.value },  () => {
-      this.countResult();
-    });
-  };
+  // handleChangeFiat = event => {
+  //   this.setState({ fiat: event.target.value },  () => {
+  //     this.countResult();
+  //   });
+  // };
+  //
+  // handleChangeCrypto = event => {
+  //   this.setState({ crypto: event.target.value },  () => {
+  //     this.countResult();
+  //   });
+  // };
 
   handle = event => {
     let value = event.target.value;
@@ -136,39 +140,66 @@ export class HomePage extends React.Component {
     })
   }
 
+  handleChangeFiat = (event, value) => {
+    this.setState({ fiatValue : value }, () => {
+      if (value == 0)
+        this.setState({fiat: "USD"}, () => {
+          this.countResult();
+        })
+      if (value == 1)
+        this.setState({fiat: "EUR"}, () => {
+          this.countResult();
+        })
+      if (value == 2)
+        this.setState({fiat: "RUB"}, () => {
+          this.countResult();
+        })
+    });
+  };
+
+  handleChangeCrypto = (event, value) => {
+    this.setState({ cryptoValue : value }, () => {
+      if (value == 0)
+        this.setState({crypto: "BTC"}, () => {
+          this.countResult();
+        })
+      if (value == 1)
+        this.setState({crypto: "ETH"}, () => {
+          this.countResult();
+        })
+    });
+  };
+
   render() {
+    const { fiatValue } = this.state;
+    const { cryptoValue } = this.state;
+
       if(!this.state.cryptos) {
         return <div className={style.loading}> <CircularProgress /> </div>
       }
       return (
         <div className={style.main}>
-          <Grid container spacing={8}>
+          <Grid container spacing={0}>
             <Grid item xs={12} md={5}>
-            <FormControl className={style.margin}>
-              <InputLabel htmlFor="fiat-customized-select" className={style.bootstrapLabel}>
-                Fiat
-              </InputLabel>
-              <Select
-                value={this.state.fiat}
+              <Tabs
+                value={fiatValue}
                 onChange={this.handleChangeFiat}
-                input={<BootstrapInput name="fiat" id="fiat-customized-select" />}
+                indicatorColor="primary"
+                textColor="primary"
+                variant="fullWidth"
               >
-                <MenuItem value={"USD"}>USD</MenuItem>
-                <MenuItem value={"EUR"}>EUR</MenuItem>
-                <MenuItem value={"RUB"}>RUB</MenuItem>
-              </Select>
+                <Tab label="USD" />
+                <Tab label="EUR" />
+                <Tab label="RUB" />
+              </Tabs>
 
-
-            </FormControl>
             <FormControl disabled={!this.state.fiatToCrypto}>
-              <InputLabel shrink htmlFor="bootstrap-input" className={style.bootstrapLabel}>
-                Value
-              </InputLabel>
               <InputBase
                 id="bootstrap-input"
                 value={this.state.value}
                 className={style.bootstrapRoot}
                 onChange={this.handle}
+                placeholder = {"0  " + this.state.fiat}
               />
             </FormControl>
             </Grid>
@@ -182,24 +213,18 @@ export class HomePage extends React.Component {
             </Grid>
 
             <Grid item xs={12} md={5}>
-            <FormControl className={style.margin}>
-              <InputLabel htmlFor="crypto-customized-select" className={style.bootstrapLabel}>
-                Crypto
-              </InputLabel>
-              <Select
-                value={this.state.crypto}
-                onChange={this.handleChangeCrypto}
-                input={<BootstrapInput name="crypto" id="crypto-customized-select" />}
-              >
-                <MenuItem value={"BTC"}>BTC</MenuItem>
-                <MenuItem value={"ETH"}>ETH</MenuItem>
-              </Select>
-            </FormControl>
+            <Tabs
+              value={cryptoValue}
+              onChange={this.handleChangeCrypto}
+              indicatorColor="primary"
+              textColor="primary"
+              variant="fullWidth"
+            >
+              <Tab label="BTC" />
+              <Tab label="ETH" />
+            </Tabs>
 
             <FormControl disabled={this.state.fiatToCrypto}>
-              <InputLabel shrink htmlFor="bootstrap-input" className={style.bootstrapLabel}>
-                Value
-              </InputLabel>
               <InputBase
                 id="bootstrap-input"
                 value={this.state.result}
@@ -208,6 +233,7 @@ export class HomePage extends React.Component {
                   input: style.bootstrapInput,
                 }}
                 onChange={this.handleCrypto}
+                placeholder = {"0  " + this.state.crypto}
               />
             </FormControl>
             </Grid>

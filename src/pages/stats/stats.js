@@ -31,9 +31,17 @@ export class Stats extends React.Component {
 
   renderCustomAxisTick = ({ x, y, payload }) => {
     var date = new Date(payload.value * 1000);
+    let print;
+    if (this.state.limit == 365)
+      print = date.toDateString().substring(3,7) + " " + date.toDateString().substring(11,15);
+    else
+      if (this.state.limit == 2000)
+        print = date.toDateString().substring(3,5) + " " +date.toDateString().substring(11,15);
+      else
+        print = date.toDateString().substring(3,15);
     return (
       <text x={x} y={y+20} fill="#666" textAnchor="middle">
-        {date.toDateString().substring(3,15)}
+        {print}
       </text>
 
     );
@@ -79,6 +87,14 @@ export class Stats extends React.Component {
     })
   }
 
+  handleInterval = (time) => () => {
+    this.setState({
+           limit: time
+    },  () => {
+      this.loadData(this.state.fsym,this.state.tsym,this.state.limit);
+    })
+  }
+
   render() {
     if(!this.state.data) {
       return <div className={style.loading}> <CircularProgress /> </div>
@@ -89,7 +105,7 @@ export class Stats extends React.Component {
         <Grid item xs={10} md={10}>
           <div className={style.chart}>
             <LineChart width={window.innerWidth - window.innerWidth*0.2} height={300} data={this.state.data.Data}>
-              <Line strokeWidth={4} type="monotone" dataKey="close" stroke="#8884d8" />
+              <Line strokeWidth={4} dataKey="close" stroke="#8884d8" />
               <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
               <XAxis dataKey="time" tick={this.renderCustomAxisTick}/>
               <YAxis tick={this.renderCustomY}/>
@@ -99,16 +115,33 @@ export class Stats extends React.Component {
         </Grid>
         <Grid item xs={2} md={1}>
           <div className={style.chart}>
-            <Button color="primary" size="medium" className={style.button} onClick={this.handleClick("USD")}>
+            <Button disabled={this.state.tsym == "USD"} color="primary" size="medium" className={style.button} onClick={this.handleClick("USD")}>
               USD
             </Button>
-            <Button color="primary" size="medium" className={style.button} onClick={this.handleClick("EUR")}>
+            <Button disabled={this.state.tsym == "EUR"} color="primary" size="medium" className={style.button} onClick={this.handleClick("EUR")}>
               EUR
             </Button>
-            <Button color="primary" size="medium" className={style.button} onClick={this.handleClick("RUB")}>
+            <Button disabled={this.state.tsym == "RUB"} color="primary" size="medium" className={style.button} onClick={this.handleClick("RUB")}>
               RUB
             </Button>
           </div>
+        </Grid>
+        <Grid item xs={12} md={12}>
+          <Button disabled={this.state.limit == 7} color="primary" size="medium" className={style.button} onClick={this.handleInterval(7)}>
+            last week
+          </Button>
+          <Button disabled={this.state.limit == 31} color="primary" size="medium" className={style.button} onClick={this.handleInterval(31)}>
+            last month
+          </Button>
+          <Button disabled={this.state.limit == 92} color="primary" size="medium" className={style.button} onClick={this.handleInterval(92)}>
+            last quarter
+          </Button>
+          <Button disabled={this.state.limit == 365} color="primary" size="medium" className={style.button} onClick={this.handleInterval(365)}>
+            last year
+          </Button>
+          <Button disabled={this.state.limit == 2000} color="primary" size="medium" className={style.button} onClick={this.handleInterval(2000)}>
+            for all time
+          </Button>
         </Grid>
       </Grid>
     )

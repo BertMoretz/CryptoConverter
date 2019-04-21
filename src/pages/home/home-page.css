@@ -8,11 +8,10 @@
 }
 
 .bootstrapRoot {
-  border-radius: 4px;
-  border: 1px solid #ced4da;
-  font-size: 18px;
+  /* border-radius: 4px;
+  border: 1px solid #ced4da; */
   padding: 5px 12px 4px 12px;
-  margin-top: 24px;
+  margin-top: 10px;
 }
 
 .currSwapper {
