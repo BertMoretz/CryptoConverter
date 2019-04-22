@@ -1,0 +1,101 @@
+body {
+  background-color: #fafafa;
+}
+
+.loading {
+  text-align: center;
+  margin-top: 24px;
+}
+
+.bootstrapLabel {
+  font-size: 50px;
+}
+
+.bootstrapRoot {
+  /* border-radius: 4px;
+  border: 1px solid #ced4da; */
+  padding: 5px 12px 4px 12px;
+  margin-top: 10px;
+  color: black !important;
+  font-size: 32px !important;
+}
+
+.currSwapper {
+  /* top: 48%; */
+  left: 48%;
+  position: absolute;
+  /* border-radius: 25px;
+  border: 1px solid #e1e1e1; */
+  background-color: white;
+  z-index: 1;
+}
+
+.icon {
+    animation: spin 300ms;
+    transform: rotate(180deg);
+}
+
+.iconback {
+  animation: spinBack 300ms;
+  transform: rotate(360deg);
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(180deg);
+    }
+}
+
+@keyframes spinBack {
+    0% {
+        transform: rotate(180deg);
+    }
+
+    100% {
+        transform: rotate(360);
+    }
+}
+
+.main {
+  margin-top: 40px;
+}
+
+.convertcard {
+  height: 270px;
+  margin-left: 60px;
+  margin-right: 60px;
+  position: relative;
+}
+
+.inputForm {
+  width: auto;
+}
+
+.tab {
+  border-bottom: 1px solid #e1e1e1;
+  background-color: white;
+}
+
+.content {
+  height: 270px;
+}
+
+.borderoutline {
+  border-right: 1px solid #e1e1e1;
+}
+
+.result {
+  background-color: #f5f5f5;
+}
+
+.source {
+  background-color: #fff;
+}
+
+.tabElement {
+  font-size: 16px !important;
+}
