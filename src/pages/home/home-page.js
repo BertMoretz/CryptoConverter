@@ -1,11 +1,7 @@
 import React, { Fragment } from "react"
 import axios from 'axios';
-import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 import Input from '@material-ui/core/Input';
 import InputBase from '@material-ui/core/InputBase';
 import Grid from '@material-ui/core/Grid';
@@ -13,38 +9,11 @@ import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import Card from '@material-ui/core/Card';
+import Tooltip from '@material-ui/core/Tooltip';
 
 
 import style from "./home-page.css"
-
-const BootstrapInput = withStyles(theme => ({
-  root: {
-    'label + &': {
-      marginTop: theme.spacing.unit * 3,
-    },
-  },
-  input: {
-    borderRadius: 4,
-    position: 'relative',
-    backgroundColor: theme.palette.background.paper,
-    border: '1px solid #ced4da',
-    fontSize: 18,
-    width: 'auto',
-    textAlign: 'center',
-    padding: '10px 26px 10px 12px',
-    transition: theme.transitions.create(['border-color', 'box-shadow']),
-    // Use the system font instead of the default Roboto font.
-    fontFamily: [
-      'Roboto',
-      'sans-serif',,
-    ].join(','),
-    '&:focus': {
-      borderRadius: 4,
-      borderColor: '#80bdff',
-      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
-    },
-  },
-}))(InputBase);
 
 export class HomePage extends React.Component {
 
@@ -170,6 +139,14 @@ export class HomePage extends React.Component {
     });
   };
 
+  putFocusFiat = () => {
+    document.getElementById("fiat-input").focus();
+  }
+
+  putFocusCrypto = () => {
+    document.getElementById("crypto-input").focus();
+  }
+
   render() {
     const { fiatValue } = this.state;
     const { cryptoValue } = this.state;
@@ -179,23 +156,26 @@ export class HomePage extends React.Component {
       }
       return (
         <div className={style.main}>
-          <Grid container spacing={0}>
-            <Grid item xs={12} md={5}>
+          <Card className={style.convertcard}>
+          <Grid container spacing={0} className={style.content}>
+            <Grid item xs={6} md={6} className={!this.state.fiatToCrypto ? `${style.borderoutline} ${style.result}`: `${style.borderoutline} ${style.source}`} onClick={this.putFocusFiat}>
+
               <Tabs
+                className={style.tab}
                 value={fiatValue}
                 onChange={this.handleChangeFiat}
                 indicatorColor="primary"
                 textColor="primary"
                 variant="fullWidth"
               >
-                <Tab label="USD" />
-                <Tab label="EUR" />
-                <Tab label="RUB" />
+                <Tab label="USD" className={style.tabElement}/>
+                <Tab label="EUR" className={style.tabElement}/>
+                <Tab label="RUB" className={style.tabElement}/>
               </Tabs>
 
-            <FormControl disabled={!this.state.fiatToCrypto}>
+            <FormControl className={style.inputForm} disabled={!this.state.fiatToCrypto}>
               <InputBase
-                id="bootstrap-input"
+                id="fiat-input"
                 value={this.state.value}
                 className={style.bootstrapRoot}
                 onChange={this.handle}
@@ -204,29 +184,30 @@ export class HomePage extends React.Component {
             </FormControl>
             </Grid>
 
-            <Grid item xs={12} md={1}>
+            <Tooltip title="Reverse Convertion" aria-label="Reverse Convertion">
               <div className={style.currSwapper} >
-                <IconButton onClick={this.rotate} className={this.state.fiatToCrypto ? `${style.icon}` : `${style.hey}`}>
+                <IconButton onClick={this.rotate} className={this.state.fiatToCrypto ? `${style.icon}` : `${style.iconback}`}>
                   <ArrowBackIcon />
                 </IconButton>
               </div>
-            </Grid>
+            </Tooltip>
 
-            <Grid item xs={12} md={5}>
+            <Grid item xs={6} md={6} className={this.state.fiatToCrypto ? `${style.result}`: `${style.source}`} onClick={this.putFocusCrypto}>
             <Tabs
+              className={style.tab}
               value={cryptoValue}
               onChange={this.handleChangeCrypto}
               indicatorColor="primary"
               textColor="primary"
               variant="fullWidth"
             >
-              <Tab label="BTC" />
-              <Tab label="ETH" />
+              <Tab label="BTC" className={style.tabElement}/>
+              <Tab label="ETH" className={style.tabElement}/>
             </Tabs>
 
             <FormControl disabled={this.state.fiatToCrypto}>
               <InputBase
-                id="bootstrap-input"
+                id="crypto-input"
                 value={this.state.result}
                 classes={{
                   root: style.bootstrapRoot,
@@ -238,6 +219,7 @@ export class HomePage extends React.Component {
             </FormControl>
             </Grid>
           </Grid>
+          </Card>
         </div>
       )
   }
