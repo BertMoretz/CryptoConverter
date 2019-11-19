@@ -15,7 +15,7 @@ class MyAppBar extends React.Component {
 
   render() {
     return (
-      <AppBar position="static" color="primary">
+      <AppBar position="static" color="default" style={{backgroundColor: "white",color: "#4d4d4e", borderBottom: "1px solid rgba(0,0,0,0.12)"}} elevation={0}>
         <Toolbar>
           <div className={style.logo}>
             <Typography variant="h6" color="inherit">
