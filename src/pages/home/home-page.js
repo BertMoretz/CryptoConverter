@@ -30,9 +30,15 @@ const HomePage = () => {
 
   const [exchangeRates, setExchangeRates] = useState(null);
 
-  useEffect( () => {
+  useEffect(() => {
     loadCrypt();
   }, [])
+
+  useEffect(() => {
+    if (exchangeRates)
+      countResult();
+  }, [value, result, fiat, crypto])
+
 
   const loadCrypt = () => {
     axios
@@ -53,11 +59,9 @@ const HomePage = () => {
     if (fiatToCrypto) {
       re = v / exchangeRates[c][f];
       setResult(re);
-      forceUpdate();
     } else {
       re = r * exchangeRates[c][f];
       setValue(re);
-      forceUpdate();
     }
 
 
@@ -67,8 +71,7 @@ const HomePage = () => {
     let value = event.target.value;
     if (/^\d*\.?\d*$/.test(value)) {
       setValue(event.target.value);
-      countResult();
-      forceUpdate();
+      // forceUpdate();
     }
 
   };
@@ -77,8 +80,7 @@ const HomePage = () => {
     let value = event.target.value;
     if (/^\d*\.?\d*$/.test(value)) {
       setResult(event.target.value);
-      countResult();
-      forceUpdate();
+      // forceUpdate();
     }
   };
 
@@ -87,8 +89,7 @@ const HomePage = () => {
     setFiatToCrypto(temp);
     setValue('');
     setResult('');
-    countResult();
-    forceUpdate();
+    // forceUpdate();
   }
 
   const handleChangeFiat = (event, value) => {
@@ -96,28 +97,23 @@ const HomePage = () => {
     forceUpdate();
     if (value == 0) {
       setFiat("USD");
-      countResult();
     }
     if (value == 1) {
       setFiat("EUR");
-      countResult();
     }
     if (value == 2) {
       setFiat("RUB");
-      countResult();
     }
   };
 
   const handleChangeCrypto = (event, value) => {
     setCryptoValue(value);
-    forceUpdate();
+    // forceUpdate();
     if (value == 0) {
       setCrypto("BTC");
-      countResult();
     }
     if (value == 1) {
       setCrypto("ETH");
-      countResult();
     }
   };
 
