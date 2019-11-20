@@ -35,8 +35,9 @@ const HomePage = () => {
   }, [])
 
   useEffect(() => {
-    if (exchangeRates)
+    if (exchangeRates) {
       countResult();
+    }
   }, [value, result, fiat, crypto])
 
 
@@ -59,9 +60,11 @@ const HomePage = () => {
     if (fiatToCrypto) {
       re = v / exchangeRates[c][f];
       setResult(re);
+      putFocusFiat();
     } else {
       re = r * exchangeRates[c][f];
       setValue(re);
+      putFocusCrypto();
     }
 
 
@@ -190,6 +193,7 @@ const HomePage = () => {
                   root: style.bootstrapRoot,
                   input: style.bootstrapInput,
                 }}
+
                 onChange={handleCrypto}
                 placeholder = {"0  " + crypto}
               />
