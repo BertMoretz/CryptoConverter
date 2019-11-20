@@ -1,4 +1,4 @@
-import React, { Fragment } from "react"
+import React, { Fragment, useEffect, useState } from "react"
 import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import FormControl from '@material-ui/core/FormControl';
@@ -11,159 +11,140 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Card from '@material-ui/core/Card';
 import Tooltip from '@material-ui/core/Tooltip';
+import * as utils from "../../utils/utils";
 
 
 import style from "./home-page.css"
 
-export class HomePage extends React.Component {
+const HomePage = () => {
+  const [flag, forceUpdate] = utils.useForceUpdate();
 
-  state = {
-    fiat: 'USD',
-    crypto: 'BTC',
-    value: '',
-    result: '',
-    fiatToCrypto: true,
-    fiatValue: 0,
-    cryptoValue: 0,
-  }
+  const [fiat, setFiat] = useState('USD');
+  const [crypto, setCrypto] = useState('BTC');
+  const [value, setValue] = useState('');
+  const [result, setResult] = useState('');
+  const [fiatToCrypto, setFiatToCrypto] = useState(true);
+  const [fiatValue, setFiatValue] = useState(0);
+  const [cryptoValue, setCryptoValue] = useState(0);
 
-  componentDidMount() {
-    this.loadCrypt();
-  }
 
-  loadCrypt = () => {
+  const [exchangeRates, setExchangeRates] = useState(null);
+
+  useEffect( () => {
+    loadCrypt();
+  }, [])
+
+  const loadCrypt = () => {
     axios
         .get('https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH&tsyms=USD,EUR,RUB&api_key=592432a04e855b5ee3900db3de717330cc5d8799a7fecdea6e49223a12bff4c6')
         .then(response => {
             console.log('Axios returned', response.data)
-            this.setState( {
-                  cryptos: response.data
-                })
+            setExchangeRates(response.data);
+            forceUpdate();
         });
   }
 
-  countResult = () => {
-    let f = this.state.fiat;
-    let c = this.state.crypto;
-    let v = this.state.value;
-    let r = this.state.result;
+  const countResult = () => {
+    let f = fiat;
+    let c = crypto;
+    let v = value;
+    let r = result;
     let re;
-    if (this.state.fiatToCrypto) {
-      re = v / this.state.cryptos[c][f];
-      this.setState({ result: re }, () => {
-        console.log(this.state.result)
-      });
+    if (fiatToCrypto) {
+      re = v / exchangeRates[c][f];
+      setResult(re);
+      forceUpdate();
     } else {
-      re = r * this.state.cryptos[c][f];
-      this.setState({ value: re }, () => {
-        console.log(this.state.value)
-      });
+      re = r * exchangeRates[c][f];
+      setValue(re);
+      forceUpdate();
     }
 
 
-  }
+  };
 
-  // handleChangeFiat = event => {
-  //   this.setState({ fiat: event.target.value },  () => {
-  //     this.countResult();
-  //   });
-  // };
-  //
-  // handleChangeCrypto = event => {
-  //   this.setState({ crypto: event.target.value },  () => {
-  //     this.countResult();
-  //   });
-  // };
-
-  handle = event => {
+  const handle = event => {
     let value = event.target.value;
     if (/^\d*\.?\d*$/.test(value)) {
-      this.setState({
-             value: event.target.value
-      },  () => {
-        this.countResult();
-      })
+      setValue(event.target.value);
+      countResult();
+      forceUpdate();
     }
 
   };
 
-  handleCrypto = event => {
+  const handleCrypto = event => {
     let value = event.target.value;
     if (/^\d*\.?\d*$/.test(value)) {
-      this.setState({
-             result: event.target.value
-      },  () => {
-        this.countResult();
-      })
+      setResult(event.target.value);
+      countResult();
+      forceUpdate();
     }
   };
 
-  rotate = event => {
-    let temp = !this.state.fiatToCrypto;
-    this.setState({
-           fiatToCrypto: temp,
-           value: '',
-           result: '',
-    },  () => {
-      this.countResult();
-    })
+  const rotate = event => {
+    let temp = !fiatToCrypto;
+    setFiatToCrypto(temp);
+    setValue('');
+    setResult('');
+    countResult();
+    forceUpdate();
   }
 
-  handleChangeFiat = (event, value) => {
-    this.setState({ fiatValue : value }, () => {
-      if (value == 0)
-        this.setState({fiat: "USD"}, () => {
-          this.countResult();
-        })
-      if (value == 1)
-        this.setState({fiat: "EUR"}, () => {
-          this.countResult();
-        })
-      if (value == 2)
-        this.setState({fiat: "RUB"}, () => {
-          this.countResult();
-        })
-    });
+  const handleChangeFiat = (event, value) => {
+    setFiatValue(value);
+    forceUpdate();
+    if (value == 0) {
+      setFiat("USD");
+      countResult();
+    }
+    if (value == 1) {
+      setFiat("EUR");
+      countResult();
+    }
+    if (value == 2) {
+      setFiat("RUB");
+      countResult();
+    }
   };
 
-  handleChangeCrypto = (event, value) => {
-    this.setState({ cryptoValue : value }, () => {
-      if (value == 0)
-        this.setState({crypto: "BTC"}, () => {
-          this.countResult();
-        })
-      if (value == 1)
-        this.setState({crypto: "ETH"}, () => {
-          this.countResult();
-        })
-    });
+  const handleChangeCrypto = (event, value) => {
+    setCryptoValue(value);
+    forceUpdate();
+    if (value == 0) {
+      setCrypto("BTC");
+      countResult();
+    }
+    if (value == 1) {
+      setCrypto("ETH");
+      countResult();
+    }
   };
 
-  putFocusFiat = () => {
+  const putFocusFiat = () => {
     document.getElementById("fiat-input").focus();
   }
 
-  putFocusCrypto = () => {
+  const putFocusCrypto = () => {
     document.getElementById("crypto-input").focus();
   }
 
-  render() {
-    const { fiatValue } = this.state;
-    const { cryptoValue } = this.state;
-
-      if(!this.state.cryptos) {
-        return <div className={style.loading}> <CircularProgress /> </div>
-      }
-      return (
+  return (
+    <div>
+      {!exchangeRates ?
+        <div className={style.loading}>
+          <CircularProgress />
+        </div>
+        :
         <div className={style.main}>
           <Card className={style.convertcard}>
           <Grid container spacing={0} className={style.content}>
-            <Grid item xs={6} md={6} className={!this.state.fiatToCrypto ? `${style.borderoutline} ${style.result}`: `${style.borderoutline} ${style.source}`} onClick={this.putFocusFiat}>
+            <Grid item xs={6} md={6} className={!fiatToCrypto ? `${style.borderoutline} ${style.result}`: `${style.borderoutline} ${style.source}`} onClick={putFocusFiat}>
 
               <Tabs
                 className={style.tab}
                 value={fiatValue}
-                onChange={this.handleChangeFiat}
+                onChange={handleChangeFiat}
                 indicatorColor="primary"
                 textColor="primary"
                 variant="fullWidth"
@@ -173,30 +154,30 @@ export class HomePage extends React.Component {
                 <Tab label="RUB" className={style.tabElement}/>
               </Tabs>
 
-            <FormControl className={style.inputForm} disabled={!this.state.fiatToCrypto}>
+            <FormControl className={style.inputForm} disabled={!fiatToCrypto}>
               <InputBase
                 id="fiat-input"
-                value={this.state.value}
+                value={value}
                 className={style.bootstrapRoot}
-                onChange={this.handle}
-                placeholder = {"0  " + this.state.fiat}
+                onChange={handle}
+                placeholder = {"0  " + fiat}
               />
             </FormControl>
             </Grid>
 
             <Tooltip title="Reverse Convertion" aria-label="Reverse Convertion">
               <div className={style.currSwapper} >
-                <IconButton onClick={this.rotate} className={this.state.fiatToCrypto ? `${style.icon}` : `${style.iconback}`}>
+                <IconButton onClick={rotate} className={fiatToCrypto ? `${style.icon}` : `${style.iconback}`}>
                   <ArrowBackIcon />
                 </IconButton>
               </div>
             </Tooltip>
 
-            <Grid item xs={6} md={6} className={this.state.fiatToCrypto ? `${style.result}`: `${style.source}`} onClick={this.putFocusCrypto}>
+            <Grid item xs={6} md={6} className={fiatToCrypto ? `${style.result}`: `${style.source}`} onClick={putFocusCrypto}>
             <Tabs
               className={style.tab}
               value={cryptoValue}
-              onChange={this.handleChangeCrypto}
+              onChange={handleChangeCrypto}
               indicatorColor="primary"
               textColor="primary"
               variant="fullWidth"
@@ -205,22 +186,25 @@ export class HomePage extends React.Component {
               <Tab label="ETH" className={style.tabElement}/>
             </Tabs>
 
-            <FormControl disabled={this.state.fiatToCrypto}>
+            <FormControl disabled={fiatToCrypto}>
               <InputBase
                 id="crypto-input"
-                value={this.state.result}
+                value={result}
                 classes={{
                   root: style.bootstrapRoot,
                   input: style.bootstrapInput,
                 }}
-                onChange={this.handleCrypto}
-                placeholder = {"0  " + this.state.crypto}
+                onChange={handleCrypto}
+                placeholder = {"0  " + crypto}
               />
             </FormControl>
             </Grid>
           </Grid>
           </Card>
         </div>
-      )
-  }
-}
+      }
+    </div>
+  );
+};
+
+export default HomePage;
