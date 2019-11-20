@@ -43,7 +43,7 @@ const HomePage = () => {
 
   const loadCrypt = () => {
     axios
-        .get('https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH&tsyms=USD,EUR,RUB&api_key=592432a04e855b5ee3900db3de717330cc5d8799a7fecdea6e49223a12bff4c6')
+        .get('https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH,XRP,EOS,BCH,LTC,TRX,LINK,BSV,OKB,ETC,BNB,MOF,VET,NEO,XMR,KAVA,ONT,USDC,ADA&tsyms=USD,EUR,RUB,JPY,GBP,AUD,CAD,CHF,CNY,ZAR,SEK,NOK,SGD,PLN,TRY,INR,CZK&api_key=592432a04e855b5ee3900db3de717330cc5d8799a7fecdea6e49223a12bff4c6')
         .then(response => {
             console.log('Axios returned', response.data)
             setExchangeRates(response.data);
