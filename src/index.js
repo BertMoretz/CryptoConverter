@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 
-import {HomePage} from "./pages/home/home-page"
+import HomePage from "./pages/home/home-page"
 import MyAppBar from "./pages/appbar/app-bar"
 import {Stats} from "./pages/stats/stats"
 
